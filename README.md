@@ -1,37 +1,50 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# VNR202c — Battle of Dien Bien Phu
 
-## Getting Started
+A one-page, scroll-based site about the 1954 Battle of Dien Bien Phu, made for the FPT University course VNR202c (History of the Communist Party of Vietnam). The content is in Vietnamese.
 
-First, run the development server:
+**Status:** Course project, FPT University, December 2024 — archived. The demo deployment is offline.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## My role
+
+Team Lead and front-end developer. In this repository I built:
+
+- Project setup (Next.js, TypeScript, Tailwind CSS).
+- The historical context section: the slide sequence on the background of the battle and the phases of the attack.
+- Reusable horizontal-scroll and swipe-grid components.
+- The Lenis smooth-scroll hook.
+
+## Team
+
+Commits in this repository: [@Let-cal](https://github.com/Let-cal), [@tthienduc13](https://github.com/tthienduc13) (layout, sidebar, leaders, summary, victory and Q&A sections) and [@Kiamng](https://github.com/Kiamng) (strategy section).
+
+## Stack
+
+Next.js 14, React 18, TypeScript, Tailwind CSS, GSAP, Framer Motion, Lenis, tsParticles, Zustand, Google Generative AI SDK (Gemini).
+
+## Features
+
+- Sections: victory hero, historical context, phases of the attack, strategy, leaders, summary.
+- Horizontal scrolling and animated transitions between sections.
+- **Q&A section:** the visitor picks one of four preset history questions; the page sends it to Gemini (`gemini-1.5-flash`) and shows the answer.
+
+## How to run
+
+Requires Node.js 18 or newer.
+
+```sh
+npm ci
+npm run dev        # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The Q&A section needs your own Gemini API key. Create `.env.local`:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+NEXT_PUBLIC_API_KEY=your-gemini-api-key
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Known limitations
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-"# VNR202c_Battle_-BP" 
+- **The API key is exposed to the browser.** Any variable starting with `NEXT_PUBLIC_` is bundled into the client code, and `components/ai-chat/index.tsx` calls Gemini from the browser. Anyone who opens the site can read the key. Before deploying, move the call into a server route (for example `app/api/ask/route.ts`) that reads a server-only variable.
+- The model name `gemini-1.5-flash` is hard-coded. If Google has retired it, change it to a current model.
+- The demo deployment is offline.
+- No automated tests.
